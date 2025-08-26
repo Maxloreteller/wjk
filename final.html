@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>年收入對應津貼方案問卷</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4A90E2',
+                        secondary: '#F5F7FA',
+                        accent: '#2962FF',
+                        neutral: '#F5F5F5',
+                    },
+                    fontFamily: {
+                        sans: ['Microsoft JhengHei', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .btn-hover {
+                @apply transition duration-300 hover:bg-accent hover:shadow-md;
+            }
+            .option-hover {
+                @apply transition duration-200 hover:bg-primary/10 cursor-pointer;
+            }
+            .card-shadow {
+                @apply shadow-lg rounded-xl overflow-hidden bg-white;
+            }
+            .text-highlight {
+                @apply text-primary font-bold;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-800 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-3xl">
+        <!-- 頁面標題 -->
+        <div class="text-center mb-8">
+            <h1 class="text-[clamp(1.8rem,5vw,2.5rem)] font-bold text-primary mb-2">年收入對應津貼方案評估</h1>
+            <p class="text-gray-600">請完成以下問卷，了解您符合的津貼方案</p>
+        </div>
+
+        <!-- 問卷容器 -->
+        <div id="questionnaire-container" class="card-shadow p-6 md:p-8 mb-8">
+            <!-- 進度條 -->
+            <div id="progress-container" class="mb-8">
+                <div class="flex justify-between text-sm mb-2">
+                    <span id="progress-text">步驟 1/3</span>
+                    <span id="section-text">年收入選擇</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                    <div id="progress-bar" class="bg-primary h-2.5 rounded-full" style="width: 33%"></div>
+                </div>
+            </div>
+
+            <!-- 問題容器 -->
+            <div id="question-container">
+                <!-- 初始問題：年收入選擇 -->
+                <div id="question-income" class="question active">
+                    <h2 class="text-xl md:text-2xl font-bold mb-6">請選擇您的年收入</h2>
+                    <div class="space-y-4">
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="10以下">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="income" value="10以下" class="mr-3 h-4 w-4 text-primary">
+                                <span>10萬以內</span>
+                            </label>
+                        </div>
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="10-50">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="income" value="10-50" class="mr-3 h-4 w-4 text-primary">
+                                <span>10萬到50萬</span>
+                            </label>
+                        </div>
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="50-100">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="income" value="50-100" class="mr-3 h-4 w-4 text-primary">
+                                <span>50萬到100萬</span>
+                            </label>
+                        </div>
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="100以上">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="income" value="100以上" class="mr-3 h-4 w-4 text-primary">
+                                <span>100萬以上</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第一套問卷：10萬以內 -->
+                <div id="question-set1-1" class="question hidden">
+                    <h2 class="text-xl md:text-2xl font-bold mb-6">請選擇您的身份</h2>
+                    <div class="space-y-4">
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="香港永居">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="set1-identity" value="香港永居" class="mr-3 h-4 w-4 text-primary">
+                                <span>香港永居</span>
+                            </label>
+                        </div>
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="內地人才">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="set1-identity" value="內地人才" class="mr-3 h-4 w-4 text-primary">
+                                <span>內地人才</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="question-set1-2" class="question hidden">
+                    <h2 class="text-xl md:text-2xl font-bold mb-6">請選擇您的學歷</h2>
+                    <div class="space-y-4">
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="持證基本學歷">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="set1-education" value="持證基本學歷" class="mr-3 h-4 w-4 text-primary">
+                                <span>持證基本學歷</span>
+                            </label>
+                            <p class="mt-2 text-sm text-gray-500 opacity-70">
+                                持牌基本學歷能否點擊進入進行解釋？
+                                <a href="https://www.ia.org.hk/tc/infocenter/faqs/faqs_15.html" target="_blank" class="text-primary underline">
+                                    跳轉至解釋頁面
+                                </a>
+                            </p>
+                        </div>
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="本科学歷">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="set1-education" value="本科学歷" class="mr-3 h-4 w-4 text-primary">
+                                <span>本科学歷</span>
+                            </label>
+                        </div>
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="研究生及以上學歷">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="set1-education" value="研究生及以上學歷" class="mr-3 h-4 w-4 text-primary">
+                                <span>研究生及以上學歷</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="question-set1-3" class="question hidden">
+                    <h2 class="text-xl md:text-2xl font-bold mb-6">是否可以出勤（每週兩次，詳情參照條款）？</h2>
+                    <div class="space-y-4">
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="可以出勤">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="set1-attendance" value="可以出勤" class="mr-3 h-4 w-4 text-primary">
+                                <span>可以出勤</span>
+                            </label>
+                        </div>
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="不能出勤">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="set1-attendance" value="不能出勤" class="mr-3 h-4 w-4 text-primary">
+                                <span>不能出勤</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第二套問卷：10萬到50萬 -->
+                <div id="question-set2-1" class="question hidden">
+                    <h2 class="text-xl md:text-2xl font-bold mb-6">請選擇您的行業</h2>
+                    <div class="space-y-4">
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="銀行及相關銷售行業">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="set2-industry" value="銀行及相關銷售行業" class="mr-3 h-4 w-4 text-primary">
+                                <span>銀行及相關銷售行業（從業至少2年）</span>
+                            </label>
+                        </div>
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="保險銷售行業25萬以上">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="set2-industry" value="保險銷售行業25萬以上" class="mr-3 h-4 w-4 text-primary">
+                                <span>保險銷售行業（從業至少2年並年收入25萬或以上）</span>
+                            </label>
+                        </div>
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="保險銷售行業25萬以下">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="set2-industry" value="保險銷售行業25萬以下" class="mr-3 h-4 w-4 text-primary">
+                                <span>保險銷售行業（從業至少2年，年收入小於25萬）</span>
+                            </label>
+                        </div>
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="其他行業">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="set2-industry" value="其他行業" class="mr-3 h-4 w-4 text-primary">
+                                <span>其他行業</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="question-set2-2" class="question hidden">
+                    <h2 class="text-xl md:text-2xl font-bold mb-6">請選擇您的身份</h2>
+                    <div class="space-y-4">
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="香港永居">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="set2-identity" value="香港永居" class="mr-3 h-4 w-4 text-primary">
+                                <span>香港永居</span>
+                            </label>
+                        </div>
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="內地人才">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="set2-identity" value="內地人才" class="mr-3 h-4 w-4 text-primary">
+                                <span>內地人才</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="question-set2-3" class="question hidden">
+                    <h2 class="text-xl md:text-2xl font-bold mb-6">您可否每週出勤兩次？</h2>
+                    <div class="space-y-4">
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="不能出勤">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="set2-attendance" value="不能出勤" class="mr-3 h-4 w-4 text-primary">
+                                <span>不能出勤</span>
+                            </label>
+                        </div>
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="可以出勤">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="set2-attendance" value="可以出勤" class="mr-3 h-4 w-4 text-primary">
+                                <span>可以出勤</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第三套問卷：50萬到100萬 -->
+                <div id="question-set3-1" class="question hidden">
+                    <h2 class="text-xl md:text-2xl font-bold mb-6">請選擇您的行業</h2>
+                    <div class="space-y-4">
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="保險銷售行業">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="set3-industry" value="保險銷售行業" class="mr-3 h-4 w-4 text-primary">
+                                <span>保險銷售行業（從業至少2年）</span>
+                            </label>
+                        </div>
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="銀行及相關銷售行業">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="set3-industry" value="銀行及相關銷售行業" class="mr-3 h-4 w-4 text-primary">
+                                <span>銀行及相關銷售行業（從業至少2年）</span>
+                            </label>
+                        </div>
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="其他行業">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="set3-industry" value="其他行業" class="mr-3 h-4 w-4 text-primary">
+                                <span>其他行業</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="question-set3-2" class="question hidden">
+                    <h2 class="text-xl md:text-2xl font-bold mb-6">請選擇您的身份</h2>
+                    <div class="space-y-4">
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="香港永居">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="set3-identity" value="香港永居" class="mr-3 h-4 w-4 text-primary">
+                                <span>香港永居</span>
+                            </label>
+                        </div>
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="內地人才">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="set3-identity" value="內地人才" class="mr-3 h-4 w-4 text-primary">
+                                <span>內地人才</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="question-set3-3" class="question hidden">
+                    <h2 class="text-xl md:text-2xl font-bold mb-6">您可否每週出勤兩次？</h2>
+                    <div class="space-y-4">
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="可以出勤">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="set3-attendance" value="可以出勤" class="mr-3 h-4 w-4 text-primary">
+                                <span>可以出勤</span>
+                            </label>
+                        </div>
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="不能出勤">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="set3-attendance" value="不能出勤" class="mr-3 h-4 w-4 text-primary">
+                                <span>不能出勤</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第四套問卷：100萬以上 -->
+                <div id="question-set4-1" class="question hidden">
+                    <h2 class="text-xl md:text-2xl font-bold mb-6">請選擇您的行業</h2>
+                    <div class="space-y-4">
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="保險銷售行業">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="set4-industry" value="保險銷售行業" class="mr-3 h-4 w-4 text-primary">
+                                <span>保險銷售行業（從業至少2年）</span>
+                            </label>
+                        </div>
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="其他行業">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="set4-industry" value="其他行業" class="mr-3 h-4 w-4 text-primary">
+                                <span>其他行業</span>
+                            </label>
+                        </div>
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="銀行及相關銷售行業">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="set4-industry" value="銀行及相關銷售行業" class="mr-3 h-4 w-4 text-primary">
+                                <span>銀行及相關銷售行業（從業至少2年）</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="question-set4-2" class="question hidden">
+                    <h2 class="text-xl md:text-2xl font-bold mb-6">請選擇您的身份</h2>
+                    <div class="space-y-4">
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="內地人才">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="set4-identity" value="內地人才" class="mr-3 h-4 w-4 text-primary">
+                                <span>內地人才</span>
+                            </label>
+                        </div>
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="香港永居">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="set4-identity" value="香港永居" class="mr-3 h-4 w-4 text-primary">
+                                <span>香港永居</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="question-set4-3" class="question hidden">
+                    <h2 class="text-xl md:text-2xl font-bold mb-6">您是否可以出勤（每週兩次）？</h2>
+                    <div class="space-y-4">
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="可以出勤">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="set4-attendance" value="可以出勤" class="mr-3 h-4 w-4 text-primary">
+                                <span>可以出勤</span>
+                            </label>
+                        </div>
+                        <div class="option option-hover p-4 border border-gray-200 rounded-lg" data-value="不能出勤">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="set4-attendance" value="不能出勤" class="mr-3 h-4 w-4 text-primary">
+                                <span>不能出勤</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 按鈕容器 -->
+            <div id="button-container" class="mt-8 flex justify-between">
+                <button id="prev-btn" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg btn-hover hidden" disabled>
+                    <i class="fa fa-arrow-left mr-2"></i>上一題
+                </button>
+                <div class="ml-auto">
+                    <button id="home-btn" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg btn-hover mr-3">
+                        <i class="fa fa-home mr-2"></i>首頁
+                    </button>
+                    <button id="next-btn" class="px-6 py-3 bg-primary text-white rounded-lg btn-hover">
+                        下一題<i class="fa fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 結果頁面 -->
+        <div id="result-container" class="card-shadow p-6 md:p-8 hidden">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl md:text-3xl font-bold text-primary mb-2">您的津貼方案結果</h2>
+                <p class="text-gray-600">根據您的回答，以下是適合您的津貼方案</p>
+            </div>
+
+            <div id="result-content" class="mb-8">
+                <h3 id="result-title" class="text-2xl md:text-3xl font-bold text-accent mb-4 text-center">津貼類型</h3>
+                <div id="result-details" class="bg-gray-50 p-6 rounded-lg text-gray-700 leading-relaxed">
+                    <!-- 結果內容將通過JS動態填充 -->
+                </div>
+            </div>
+
+            <div class="flex justify-center">
+                <button id="restart-btn" class="px-8 py-3 bg-primary text-white rounded-lg btn-hover">
+                    <i class="fa fa-refresh mr-2"></i>重新測試
+                </button>
+                <button id="home-btn-result" class="px-8 py-3 bg-gray-200 text-gray-700 rounded-lg btn-hover ml-4">
+                    <i class="fa fa-home mr-2"></i>返回首頁
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 問卷狀態管理
+        const questionnaireState = {
+            currentQuestion: 'question-income',
+            income: null,
+            set1: {
+                identity: null,
+                education: null,
+                attendance: null
+            },
+            set2: {
+                industry: null,
+                identity: null,
+                attendance: null
+            },
+            set3: {
+                industry: null,
+                identity: null,
+                attendance: null
+            },
+            set4: {
+                industry: null,
+                identity: null,
+                attendance: null
+            },
+            questionSets: {
+                '10以下': ['question-set1-1', 'question-set1-2', 'question-set1-3'],
+                '10-50': ['question-set2-1', 'question-set2-2', 'question-set2-3'],
+                '50-100': ['question-set3-1', 'question-set3-2', 'question-set3-3'],
+                '100以上': ['question-set4-1', 'question-set4-2', 'question-set4-3']
+            }
+        };
+
+        // DOM元素
+        const questionContainer = document.getElementById('question-container');
+        const resultContainer = document.getElementById('result-container');
+        const questionnaireContainer = document.getElementById('questionnaire-container');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const homeBtn = document.getElementById('home-btn');
+        const homeBtnResult = document.getElementById('home-btn-result');
+        const restartBtn = document.getElementById('restart-btn');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const sectionText = document.getElementById('section-text');
+        const resultTitle = document.getElementById('result-title');
+        const resultDetails = document.getElementById('result-details');
+
+        // 初始化選項點擊事件
+        document.querySelectorAll('.option').forEach(option => {
+            option.addEventListener('click', function() {
+                // 選中對應的radio按鈕
+                const radio = this.querySelector('input[type="radio"]');
+                radio.checked = true;
+                
+                // 保存選擇結果
+                saveAnswer(radio);
+                
+                // 啟用下一題按鈕
+                nextBtn.disabled = false;
+                nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            });
+        });
+
+        // 保存答案
+        function saveAnswer(radio) {
+            const name = radio.name;
+            const value = radio.value;
+            
+            if (name === 'income') {
+                questionnaireState.income = value;
+            } else if (name.startsWith('set1-')) {
+                const field = name.split('-')[1];
+                questionnaireState.set1[field] = value;
+            } else if (name.startsWith('set2-')) {
+                const field = name.split('-')[1];
+                questionnaireState.set2[field] = value;
+            } else if (name.startsWith('set3-')) {
+                const field = name.split('-')[1];
+                questionnaireState.set3[field] = value;
+            } else if (name.startsWith('set4-')) {
+                const field = name.split('-')[1];
+                questionnaireState.set4[field] = value;
+            }
+        }
+
+        // 顯示指定問題
+        function showQuestion(questionId) {
+            // 隱藏所有問題
+            document.querySelectorAll('.question').forEach(question => {
+                question.classList.add('hidden');
+                question.classList.remove('active');
+            });
+            
+            // 顯示指定問題
+            const question = document.getElementById(questionId);
+            question.classList.remove('hidden');
+            question.classList.add('active');
+            
+            // 更新當前問題
+            questionnaireState.currentQuestion = questionId;
+            
+            // 更新按鈕狀態
+            updateButtonState();
+            
+            // 更新進度
+            updateProgress();
+        }
+
+        // 更新按鈕狀態
+        function updateButtonState() {
+            // 首頁問題沒有上一題
+            if (questionnaireState.currentQuestion === 'question-income') {
+                prevBtn.disabled = true;
+                prevBtn.classList.add('hidden');
+                nextBtn.textContent = '下一題<i class="fa fa-arrow-right ml-2"></i>';
+                nextBtn.innerHTML = '下一題<i class="fa fa-arrow-right ml-2"></i>';
+            } else {
+                prevBtn.disabled = false;
+                prevBtn.classList.remove('hidden');
+                
+                // 檢查是否是最後一個問題
+                const isLastQuestion = isLastInSet(questionnaireState.currentQuestion);
+                if (isLastQuestion) {
+                    nextBtn.textContent = '提交<i class="fa fa-check ml-2"></i>';
+                    nextBtn.innerHTML = '提交<i class="fa fa-check ml-2"></i>';
+                } else {
+                    nextBtn.textContent = '下一題<i class="fa fa-arrow-right ml-2"></i>';
+                    nextBtn.innerHTML = '下一題<i class="fa fa-arrow-right ml-2"></i>';
+                }
+            }
+        }
+
+        // 檢查是否是當前套題的最後一個問題
+        function isLastInSet(questionId) {
+            if (!questionnaireState.income) return false;
+            
+            const questionSet = questionnaireState.questionSets[questionnaireState.income];
+            return questionSet[questionSet.length - 1] === questionId;
+        }
+
+        // 更新進度條
+        function updateProgress() {
+            if (questionnaireState.currentQuestion === 'question-income') {
+                progressBar.style.width = '33%';
+                progressText.textContent = '步驟 1/3';
+                sectionText.textContent = '年收入選擇';
+                return;
+            }
+            
+            if (!questionnaireState.income) return;
+            
+            const questionSet = questionnaireState.questionSets[questionnaireState.income];
+            const currentIndex = questionSet.indexOf(questionnaireState.currentQuestion);
+            
+            if (currentIndex !== -1) {
+                const step = currentIndex + 2; // 因為年收入選擇是第一步
+                const totalSteps = questionSet.length + 1;
+                const progress = (step / totalSteps) * 100;
+                
+                progressBar.style.width = `${progress}%`;
+                progressText.textContent = `步驟 ${step}/${totalSteps}`;
+                
+                // 更新部分標題
+                if (currentIndex === 0) {
+                    sectionText.textContent = '基本信息選擇';
+                } else if (currentIndex === 1) {
+                    sectionText.textContent = '身份信息選擇';
+                } else if (currentIndex === 2) {
+                    sectionText.textContent = '出勤信息選擇';
+                }
+            }
+        }
+
+        // 下一題
+        nextBtn.addEventListener('click', function() {
+            if (questionnaireState.currentQuestion === 'question-income') {
+                // 從年收入問題進入相應的套題
+                if (!questionnaireState.income) {
+                    alert('請選擇您的年收入');
+                    return;
+                }
+                
+                const firstQuestionInSet = questionnaireState.questionSets[questionnaireState.income][0];
+                showQuestion(firstQuestionInSet);
+            } else {
+                // 檢查是否是最後一個問題
+                const isLastQuestion = isLastInSet(questionnaireState.currentQuestion);
+                
+                if (isLastQuestion) {
+                    // 計算並顯示結果
+                    calculateResult();
+                } else {
+                    // 進入同一套題的下一個問題
+                    const questionSet = questionnaireState.questionSets[questionnaireState.income];
+                    const currentIndex = questionSet.indexOf(questionnaireState.currentQuestion);
+                    const nextQuestion = questionSet[currentIndex + 1];
+                    
+                    showQuestion(nextQuestion);
+                }
+            }
+        });
+
+        // 上一題
+        prevBtn.addEventListener('click', function() {
+            if (questionnaireState.currentQuestion === 'question-income') {
+                return; // 已經是第一題
+            }
+            
+            if (questionnaireState.questionSets[questionnaireState.income].includes(questionnaireState.currentQuestion)) {
+                const questionSet = questionnaireState.questionSets[questionnaireState.income];
+                const currentIndex = questionSet.indexOf(questionnaireState.currentQuestion);
+                
+                if (currentIndex === 0) {
+                    // 套題的第一題，返回年收入選擇
+                    showQuestion('question-income');
+                } else {
+                    // 套題的其他題，返回上一題
+                    const prevQuestion = questionSet[currentIndex - 1];
+                    showQuestion(prevQuestion);
+                }
+            }
+        });
+
+        // 返回首頁
+        function goToHome() {
+            resetQuestionnaire();
+            showQuestion('question-income');
+            questionnaireContainer.classList.remove('hidden');
+            resultContainer.classList.add('hidden');
+        }
+
+        homeBtn.addEventListener('click', goToHome);
+        homeBtnResult.addEventListener('click', goToHome);
+
+        // 重新測試
+        restartBtn.addEventListener('click', function() {
+            goToHome();
+        });
+
+        // 重置問卷
+        function resetQuestionnaire() {
+            // 清除所有選擇
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.checked = false;
+            });
+            
+            // 重置狀態
+            questionnaireState.currentQuestion = 'question-income';
+            questionnaireState.income = null;
+            questionnaireState.set1 = {
+                identity: null,
+                education: null,
+                attendance: null
+            };
+            questionnaireState.set2 = {
+                industry: null,
+                identity: null,
+                attendance: null
+            };
+            questionnaireState.set3 = {
+                industry: null,
+                identity: null,
+                attendance: null
+            };
+            questionnaireState.set4 = {
+                industry: null,
+                identity: null,
+                attendance: null
+            };
+            
+            // 重置按鈕
+            nextBtn.disabled = false;
+            prevBtn.disabled = true;
+            prevBtn.classList.add('hidden');
+        }
+
+        // 計算結果
+        function calculateResult() {
+            let result = {
+                title: '您並不符合任何一種津貼需求',
+                details: ''
+            };
+            
+            switch (questionnaireState.income) {
+                case '10以下':
+                    result = calculateSet1Result();
+                    break;
+                case '10-50':
+                    result = calculateSet2Result();
+                    break;
+                case '50-100':
+                    result = calculateSet3Result();
+                    break;
+                case '100以上':
+                    result = calculateSet4Result();
+                    break;
+            }
+            
+            // 顯示結果
+            showResult(result.title, result.details);
+        }
+
+        // 第一套問卷結果計算（10萬以下）
+        function calculateSet1Result() {
+            const { identity, education, attendance } = questionnaireState.set1;
+            
+            // 香港永居 + 持證基本學歷 + 可以出勤
+            if (identity === '香港永居' && education === '持證基本學歷' && attendance === '可以出勤') {
+                return {
+                    title: 'A版津貼',
+                    details: '1-12月每月最高$8000對數津貼，方案獎勵長達24個月。第36個月可額外申請特別津貼，按FYC比例進行發放'
+                };
+            }
+            
+            // 香港永居 + 持證基本學歷 + 不能出勤
+            if (identity === '香港永居' && education === '持證基本學歷' && attendance === '不能出勤') {
+                return {
+                    title: 'B+版津貼',
+                    details: '1-24月累計達成最高可獲40萬特別花紅，第25-36月最高可獲得36萬額外特別花紅，24個月內晉升最高獎勵3萬'
+                };
+            }
+            
+            // 香港永居 + 本科学歷 + 可以出勤
+            if (identity === '香港永居' && education === '本科学歷' && attendance === '可以出勤') {
+                return {
+                    title: 'C1津貼',
+                    details: '培訓津貼$3000，1-12月當月津貼上限1萬，1比1對數，當月業績達30%以上即可按比例達標獎勵，累計可補發。第36個月可額外申請特別津貼，按FYC比例進行發放'
+                };
+            }
+            
+            // 香港永居 + 研究生及以上學歷 + 可以出勤
+            if (identity === '香港永居' && education === '研究生及以上學歷' && attendance === '可以出勤') {
+                return {
+                    title: 'C2津貼',
+                    details: '培訓津貼$3000，1-12月當月津貼上限1.5萬，1比1對數，當月業績達30%以上即可按比例達標獎勵，累計可補發。第36個月可額外申請特別津貼，按FYC比例進行發放'
+                };
+            }
+            
+            // 內地人才 + 本科学歷
+            if (identity === '內地人才' && education === '本科学歷') {
+                return {
+                    title: 'D1津貼',
+                    details: '培訓津貼前三個月每月$8000，合計2萬4。1-18月當月津貼上限1萬，1比1對數，當月業績達30%以上即可按比例達標獎勵，累計可補發。可額外申請兩期特別津貼，最高60萬'
+                };
+            }
+            
+            // 內地人才 + 研究生及以上學歷
+            if (identity === '內地人才' && education === '研究生及以上學歷') {
+                return {
+                    title: 'D2津貼',
+                    details: '培訓津貼前三個月每月$8000，合計2.4萬。1-18月當月津貼上限1.5萬，1比1對數，當月業績達30%以上即可按比例達標獎勵，累計可補發。可額外申請兩期特別津貼，最高60萬'
+                };
+            }
+            
+            // 內地人才 + 持證基本學歷 + 可以出勤
+            if (identity === '內地人才' && education === '持證基本學歷' && attendance === '可以出勤') {
+                return {
+                    title: 'A版津貼',
+                    details: '1-12月每月最高$8000對數津貼，方案獎勵長達24個月。第36個月可額外申請特別津貼，按FYC比例進行發放'
+                };
+            }
+            
+            // 內地人才 + 持證基本學歷 + 不能出勤
+            if (identity === '內地人才' && education === '持證基本學歷' && attendance === '不能出勤') {
+                return {
+                    title: 'B+版津貼',
+                    details: '1-24月累計達成最高可獲40萬特別花紅，第25-36月最高可獲得36萬額外特別花紅，24個月內晉升最高獎勵3萬'
+                };
+            }
+            
+            // 不符合任何條件
+            return {
+                title: '您並不符合任何一種津貼需求',
+                details: ''
+            };
+        }
+
+        // 第二套問卷結果計算（10萬到50萬）
+        function calculateSet2Result() {
+            const { industry, identity, attendance } = questionnaireState.set2;
+            
+            // 其他行業 + 香港永居 + 不能出勤
+            if (industry === '其他行業' && identity === '香港永居' && attendance === '不能出勤') {
+                return {
+                    title: 'B+版津貼',
+                    details: '1-24月累計達成最高可獲40萬特別花紅，第25-36月最高可獲得36萬額外特別花紅，24個月內晉升最高獎勵3萬'
+                };
+            }
+            
+            // 其他行業 + 香港永居 + 可以出勤
+            if (industry === '其他行業' && identity === '香港永居' && attendance === '可以出勤') {
+                return {
+                    title: 'C3-C6津貼',
+                    details: '培訓津貼$3000，1-12月當月津貼上限2萬-4萬，1比1對數，當月業績達30%以上即可按比例達標獎勵，累計可補發。第36個月可額外申請特別津貼，按FYC比例進行發放'
+                };
+            }
+            
+            // 其他行業 + 內地人才
+            if (industry === '其他行業' && identity === '內地人才') {
+                return {
+                    title: 'D1-D5津貼',
+                    details: '培訓津貼前三個月每月$8000，合計2萬4。1-18月當月津貼上限1-3萬，1比1對數，當月業績達30%以上即可按比例達標獎勵，累計可補發。可額外申請兩期特別津貼，最高60萬'
+                };
+            }
+            
+            // 銀行及相關銷售行業 + 可以出勤
+            if (industry === '銀行及相關銷售行業' && attendance === '可以出勤') {
+                return {
+                    title: 'C1B-C6B津貼',
+                    details: '培訓津貼$3000，1-12月當月津貼上限0.5萬-4萬，入職即享0.5萬-2萬的一次性津貼。當月業績達30%以上即可按比例達標獎勵，累計可補發。第36個月可額外申請特別津貼，按FYC比例進行發放'
+                };
+            }
+            
+            // 保險銷售行業（25萬以上）
+            if (industry === '保險銷售行業25萬以上') {
+                return {
+                    title: '行業引進計劃',
+                    details: '入職即享加盟津貼，最高為年收入的1.5倍。前36個月每月可享總額為年收入1.5倍的當月津貼，第四-五年最高享100%年收入業績花紅'
+                };
+            }
+            
+            // 保險銷售行業（25萬以下） + 可以出勤
+            if (industry === '保險銷售行業25萬以下' && attendance === '可以出勤') {
+                return {
+                    title: 'C1-C3津貼',
+                    details: '培訓津貼$3000，1-12月當月津貼上限1萬-2萬，1比1對數，當月業績達30%以上即可按比例達標獎勵，累計可補發。第36個月可額外申請特別津貼，按FYC比例進行發放'
+                };
+            }
+            
+            // 不符合任何條件
+            return {
+                title: '您並不符合任何一種津貼需求',
+                details: ''
+            };
+        }
+
+        // 第三套問卷結果計算（50萬到100萬）
+        function calculateSet3Result() {
+            const { industry, identity, attendance } = questionnaireState.set3;
+            
+            // 其他行業 + 香港永居 + 可以出勤
+            if (industry === '其他行業' && identity === '香港永居' && attendance === '可以出勤') {
+                return {
+                    title: 'C6-C8津貼',
+                    details: '培訓津貼$3000，1-12月當月津貼上限4萬-6萬，1比1對數，當月業績達30%以上即可按比例達標獎勵，累計可補發。第36個月可額外申請特別津貼，按FYC比例進行發放'
+                };
+            }
+            
+            // 銀行及相關銷售行業 + 可以出勤
+            if (industry === '銀行及相關銷售行業' && attendance === '可以出勤') {
+                return {
+                    title: 'C7升級-C8升級津貼',
+                    details: '培訓津貼$3000，1-12月當月津貼上限5萬-6萬，1比1對數，當月業績達30%以上即可按比例達標獎勵，累計可補發。第24個月可額外申請超標津貼20萬，36個月可按FYC比例申請特別津貼'
+                };
+            }
+            
+            // 其他行業 + 內地人才 + 可以出勤
+            if (industry === '其他行業' && identity === '內地人才' && attendance === '可以出勤') {
+                return {
+                    title: 'C6-C8津貼',
+                    details: '培訓津貼$3000，1-12月當月津貼上限4萬-6萬，1比1對數，當月業績達30%以上即可按比例達標獎勵，累計可補發。第36個月可額外申請特別津貼，按FYC比例進行發放'
+                };
+            }
+            
+            // 保險銷售行業
+            if (industry === '保險銷售行業') {
+                return {
+                    title: '行業引進計劃',
+                    details: '入職即享加盟津貼，最高為年收入的1.5倍。前36個月每月可享總額為年收入1.5倍的當月津貼，第四-五年最高享100%年收入業績花紅'
+                };
+            }
+            
+            // 其他行業 + 內地人才 + 不能出勤
+            if (industry === '其他行業' && identity === '內地人才' && attendance === '不能出勤') {
+                return {
+                    title: 'D5津貼',
+                    details: '培訓津貼前三個月每月$8000，合計2萬4。1-18月當月津貼上限3萬，1比1對數，當月業績達30%以上即可按比例達標獎勵，累計可補發。可額外申請兩期特別津貼，最高60萬'
+                };
+            }
+            
+            // 不符合任何條件
+            return {
+                title: '您並不符合任何一種津貼需求',
+                details: ''
+            };
+        }
+
+        // 第四套問卷結果計算（100萬以上）
+        function calculateSet4Result() {
+            const { industry, identity, attendance } = questionnaireState.set4;
+            
+            // 其他行業 + 內地人才
+            if (industry === '其他行業' && identity === '內地人才') {
+                return {
+                    title: '高端人才津貼方案',
+                    details: '1-24月當月津貼上4-10萬，1比1對數，當月業績達60%以上即可按比例達標獎勵，設置兩次補發機制，累計可補發。可額外申請三期特別津貼，最高360萬'
+                };
+            }
+            
+            // 保險銷售行業
+            if (industry === '保險銷售行業') {
+                return {
+                    title: '行業引進計劃',
+                    details: '入職即享加盟津貼，最高為年收入的1.5倍。前36個月每月可享總額為年收入1.5倍的當月津貼，第四-五年最高享100%年收入業績花紅'
+                };
+            }
+            
+            // 其他行業 + 香港永居 + 可以出勤
+            if (industry === '其他行業' && identity === '香港永居' && attendance === '可以出勤') {
+                return {
+                    title: 'C8津貼',
+                    details: '培訓津貼$3000，1-12月當月津貼上限6萬，1比1對數，當月業績達30%以上即可按比例達標獎勵，累計可補發。第36個月可額外申請特別津貼，按FYC比例進行發放'
+                };
+            }
+            
+            // 銀行及相關銷售行業 + 香港永居 + 可以出勤
+            if (industry === '銀行及相關銷售行業' && identity === '香港永居' && attendance === '可以出勤') {
+                return {
+                    title: 'C8升級津貼',
+                    details: '培訓津貼$3000，1-12月當月津貼上限6萬，1比1對數，當月業績達30%以上即可按比例達標獎勵，累計可補發。第36個月可額外申請特別津貼，按FYC比例進行發放'
+                };
+            }
+            
+            // 不符合任何條件
+            return {
+                title: '您並不符合任何一種津貼需求',
+                details: ''
+            };
+        }
+
+        // 顯示結果
+        function showResult(title, details) {
+            resultTitle.textContent = title;
+            resultDetails.textContent = details;
+            
+            // 顯示結果頁面，隱藏問卷
+            questionnaireContainer.classList.add('hidden');
+            resultContainer.classList.remove('hidden');
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            showQuestion('question-income');
+        });
+    </script>
+</body>
+</html>
